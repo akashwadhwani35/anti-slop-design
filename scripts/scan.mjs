@@ -47,11 +47,24 @@ const RULES = [
   { id: 'E5', name: 'em dash in copy', re: /—/, note: 'generated-voice tic in visible copy; period or colon (E5)', fp: 'verbatim quotes keep their punctuation; code/comments don\'t count' },
   { id: 'F1', name: 'undersized text', re: /font-size:\s*(?:0\.[0-6]\d*rem|[1-9]px|1[01]px)\b|text-\[(?:[1-9]|1[01])px\]/i, note: 'functional text >= 12px, body >= 16px (legibility floors)' },
   { id: 'F2', name: 'justified text', re: /text-align:\s*justify|\btext-justify\b/i, note: 'ragged-right left-align; justified web columns make rivers (F2)' },
+  { id: 'G2', name: 'gradient fill on chart marks', re: /<(rect|path|circle|area)[^>]{0,200}fill=["']url\(#/i, note: 'flat 2D data ink; depth belongs to the page, not the data (G2)', fp: 'gradient fills on decorative (non-data) SVG art' },
+  { id: 'G6', name: 'count-up number animation', re: /\b(countup|count-up|CountUp)\b/, note: 'print the number in tabular figures; sparkline if change is the story (G6)' },
+  { id: 'H1', name: 'default framework title', re: /<title>\s*(Vite \+ React|Create React App|Next\.js App|React App|Vite App)/i, note: 'a real title; it is also the search result and share card (H1)' },
+  { id: 'H2a', name: 'lorem ipsum', re: /lorem ipsum/i, note: 'placeholder debris; search and destroy (H2)' },
+  { id: 'H2b', name: 'placeholder copyright/links', re: /©\s*(Your Company|Company Name)|href=["']https?:\/\/example\.com/i, note: 'placeholder debris (H2)' },
+  { id: 'H3', name: 'localhost link', re: /https?:\/\/(localhost|127\.0\.0\.1)/, note: 'localhost in shipped hrefs/configs (H3)', fp: 'dev-only config files' },
+  { id: 'H5', name: 'builder watermark / avatar service', re: /made with (lovable|framer|bolt|wix)|\.lovable\.app|dicebear|pravatar\.cc|ui-avatars\.com/i, note: 'builder signatures and fake-avatar services (H5, E6)' },
+  { id: 'E6', name: 'star-row social proof', re: /[★⭐]{4,}/, note: 'real quotes from named people, or none; the data is the proof (E6)' },
+  { id: 'H6', name: 'console.log in shipped HTML', re: /\bconsole\.log\(/, ext: ['.html', '.htm'], note: 'debug debris; a clean console is part of the page (H6)', fp: 'an intentional easter egg for view-source readers' },
 ];
 
 // File-level checks: flag once per file when `when` matches but `unless` doesn't.
 const FILE_RULES = [
   { id: 'D6', name: 'motion without reduced-motion fallback', when: /@keyframes|animation:/, unless: /prefers-reduced-motion/, note: 'every motion needs a @media (prefers-reduced-motion: reduce) alternative (D6)' },
+  { id: 'H4a', name: 'page without favicon', when: /<head[\s>]/i, unless: /rel=["'](icon|shortcut icon|apple-touch-icon)/i, ext: ['.html', '.htm'], note: 'blank tab icon (H4)', fp: 'a site-root /favicon.ico still renders without the link tag' },
+  { id: 'H4b', name: 'page without og:image', when: /<head[\s>]/i, unless: /property=["']og:image/i, ext: ['.html', '.htm'], note: 'blank share card everywhere the page spreads; a distribution bug (H4)' },
+  { id: 'H4c', name: 'page without meta description', when: /<head[\s>]/i, unless: /name=["']description/i, ext: ['.html', '.htm'], note: 'no search/share summary (H4)' },
+  { id: 'H4d', name: 'page without viewport meta', when: /<head[\s>]/i, unless: /name=["']viewport/i, ext: ['.html', '.htm'], note: 'broken mobile scaling (H4)' },
 ];
 
 const args = process.argv.slice(2);
@@ -90,8 +103,10 @@ for (const file of files) {
   fileCount++;
   const lines = text.split('\n');
 
+  const fileExt = extname(file);
   for (const rule of FILE_RULES) {
     if (!active(rule.id)) continue;
+    if (rule.ext && !rule.ext.includes(fileExt)) continue;
     if (rule.when.test(text) && !rule.unless.test(text)) {
       (hits[rule.id] ||= { rule, locs: [] }).locs.push(`${file} (file-level)`);
     }
@@ -99,6 +114,7 @@ for (const file of files) {
 
   for (const rule of RULES) {
     if (!active(rule.id) || rule.manual) continue;
+    if (rule.ext && !rule.ext.includes(fileExt)) continue;
     if (rule.pair && !rule.pair.test(text)) continue;
     lines.forEach((line, i) => {
       if (line.length > 500) return; // skip minified-ish lines

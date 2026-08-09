@@ -21,20 +21,22 @@ They compose: use Hallmark to generate an app page, use this to audit the data s
 
 ```
 SKILL.md                  the skill: modes, pre-emit self-critique, audit workflow, legibility floors, pre-ship audit
-references/tells.md       ~40 tells in 5 layers, each with why / fix / detection, all cited
+references/tells.md       ~55 tells in 7 layers, each with why / fix / detection, all cited
 references/structures.md  the section-form palette + the structural-fingerprint rule
 references/fixes.md       before→after diff patterns for the highest-frequency tells
 references/craft.md       the additive signals, the reskin test, the Reddit-brigade case study, sources
-scripts/scan.mjs          dependency-free scanner: grouped file:line hits, --only/--skip/--exclude, antislop-ignore pins
+scripts/scan.mjs          dependency-free scanner: ~40 rules incl. file-level page-furniture checks, --only/--skip/--exclude, antislop-ignore pins
 ```
 
-The tells are organized in five layers, weighted by how often each layer survives a surface cleanup:
+The tells are organized in seven layers, weighted by how often each layer survives a surface cleanup:
 
-- **Typography**: eyebrows/kickers, letterspaced-caps mono labels, all-caps display, italic-serif heroes, font soup, flat hierarchy
-- **Color & surface**: the purple gradients, the cream + grain + italic-serif "AI editorial" stack, glassmorphism, side-tab callouts, over-rounding
+- **Typography**: eyebrows/kickers, letterspaced-caps mono labels, all-caps display, italic-serif heroes, font soup, flat hierarchy, non-tabular numerals in data
+- **Color & surface**: the purple gradients, the cream + grain + italic-serif "AI editorial" stack, glassmorphism, side-tab callouts, over-rounding, gray body text
 - **Structure** (weighted highest): stat blocks, repeated card grids, icon-tile feature cards, cards-in-cards, uniform spacing, invented metrics
-- **Motion**: uniform scroll reveals, scroll hijacking, hover effects on everything
-- **Imagery & naming**: emoji icons, curator naming ("The X Museum"), vague headlines, generated voice tics
+- **Motion**: uniform scroll reveals, scroll hijacking, hover effects on everything, missing reduced-motion fallbacks
+- **Imagery & naming**: emoji icons, curator naming ("The X Museum"), vague headlines, generated voice tics, fabricated social proof (star rows, avatar services)
+- **Charts** (no other anti-slop skill covers this layer): honest baselines, flat data ink, color that encodes, donut and rainbow bans, the insight annotated on the chart itself, no count-up animations
+- **Scaffold residue**: default framework titles, lorem ipsum, localhost links, missing favicon/OG/description/viewport, builder watermarks, console debris
 
 Plus the part removal can't give you: the **reskin test** (if the page could serve any other client by swapping headline and accent, it has no concept; build from a primitive native to the subject) and the **three-deliberate-choices floor**.
 

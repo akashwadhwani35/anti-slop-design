@@ -65,7 +65,9 @@ Full catalog with why, fix, and detection pattern per tell: `references/tells.md
 - **B. Color and surface:** purple/indigo-to-violet gradients; the cream + grain + italic-serif "AI editorial" stack; neon-glow-on-dark; six meaningless category colors; decorative glassmorphism; hairline border plus wide diffuse shadow; colored left-border callouts; over-rounding and uniform radius; gray body text; dark-only mode and pure-black grounds.
 - **C. Structure (the editorial layer, weight these highest):** three-stat blocks; more than one card grid per page; icon-tile-above-heading feature cards; centered-everything with the hero → cards → CTA rhythm; cards nested in cards; uniform spacing with no visible decision; "01 / 02 / 03" section markers; invented metrics.
 - **D. Motion:** uniform fade-in-up on every section; scroll hijacking; hover scale/glow on everything; stock easing everywhere; `transition: all`; motion without a reduced-motion fallback; decorative motion that communicates no state.
-- **E. Imagery and naming:** emoji as icons; plastic AI illustration; amateur hand-drawn SVG scenes; "The X Museum / Atlas / Vault" curator naming; vague headlines; em dashes and "not just X, it's Y" voice tics in page copy.
+- **E. Imagery and naming:** emoji as icons; plastic AI illustration; amateur hand-drawn SVG scenes; "The X Museum / Atlas / Vault" curator naming; vague headlines; em dashes and "not just X, it's Y" voice tics in page copy; fabricated social proof (star rows, avatar services, invented quotes).
+- **G. Charts (unique to this skill, weight equal to structure):** truncated bar baselines; 3D, shadows, and gradient fills on data ink; rainbow palettes; donut defaults; gallery spacing on a cockpit surface; count-up number animations; the insight stated in the headline instead of annotated on the chart. One dishonest or decorated chart and the reader distrusts every number after it.
+- **H. Scaffold residue:** default framework titles; lorem ipsum and placeholder copyright; localhost links; missing favicon / OG image / description / viewport; builder watermarks; console.log debris. Individually small, collectively the most conclusive tell, because residue can't be a taste choice.
 
 ## Craft signals (what to add)
 
@@ -87,7 +89,9 @@ Run against the rendered page:
 4. Squint test: at least one asymmetric, non-uniform decision is visible.
 5. Palette clear of the banned combos; every color on a chart encodes something.
 6. Nothing animates that communicates nothing.
-7. Copy clear of em dashes, vague headlines, curator naming, invented numbers.
-8. Legibility floors all pass, measured, not eyeballed.
-9. The reskin test passes and three deliberate choices are nameable.
-10. Final gut check: *"Would a model asked for 'a premium page about X' have produced this layout by default?"* If yes, not done.
+7. Copy clear of em dashes, vague headlines, curator naming, invented numbers, fabricated social proof.
+8. Every chart: baseline at zero, flat marks, color that encodes, insight annotated on the chart itself.
+9. Zero scaffold residue: real title, favicon, OG image tested as an actual share card, clean console.
+10. Legibility floors all pass, measured, not eyeballed.
+11. The reskin test passes and three deliberate choices are nameable.
+12. Final gut check: *"Would a model asked for 'a premium page about X' have produced this layout by default?"* If yes, not done.

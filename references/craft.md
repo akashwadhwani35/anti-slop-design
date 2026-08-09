@@ -47,10 +47,19 @@ Catalogs and detectors:
 - [kill-ai-slop taxonomy (yetone)](https://github.com/yetone/kill-ai-slop) — 35 tells with detection regexes for app UI
 - [Hallmark (Nutlope / Together AI)](https://github.com/nutlope/hallmark) — the honest-copy and structural-variety disciplines
 
-Why convergence happens:
-- [Sascha Becker: Same Same but Different, the Anatomy of AI Design Sameness](https://saschb2b.com/blog/same-same-but-different)
+Why convergence happens (and the measurements):
+- Goree, Doosti, Crandall & Su (CHI 2021): computer vision over 227,000 screenshots of ~10,000 websites, 2003–2019. Average layout distance between websites **fell 44% between 2010 and 2019**, before generative AI; shared frameworks and templates drove it. Generative tools are the third convergence wave, not the first. (Surfaced via [Sascha Becker's anatomy of AI design sameness](https://saschb2b.com/blog/same-same-but-different), which also covers the RLHF safe-bias mechanism: evaluators rate "safe" above "interesting," so models learn the median.)
+- [The Reddit-mined tells ranking](https://github.com/JCarterJohnson/vibecoded-design-tells): 3.2M posts across 47 subreddits. The loudest complaint is recognizability itself ("they all look the same," ~13% of on-topic posts); among specific features, shadcn/Tailwind defaults and the "AI purple" gradient lead. Notably, the meme tells (bento grids, glassmorphism, aurora) rank near the bottom; the discourse grew ~150x from 2023 to 2024.
+- [Rottoways: the vibecoding design problem](https://rottoways.com/blog/vibecoding-design-problem) — eight patterns with their generating LLM behavior; "aggressively mediocre" as the diagnosis
 - [Sailop: Why Every AI-Generated Website Looks the Same](https://sailop.com/blog/why-every-ai-generated-website-looks-the-same) — mode collapse + Tailwind defaults in training data
 - [Shuffle: Why Do Most AI-Generated Websites Look the Same?](https://shuffle.dev/blog/2026/01/why-do-most-ai-generated-websites-look-the-same/)
+
+Charts and dashboards:
+- [Microsoft's Power BI anti-pattern catalog](https://github.com/microsoft/skills-for-fabric/blob/main/skills/powerbi-report-design/references/anti-patterns.md) — an LLM refusal list for dashboard generation (3D, shadows on visuals, truncated baselines, saturated backgrounds)
+- [Why AI-generated dashboards all look the same](https://uxskill.laithjunaidy.com/blog/ai-dashboard-design-generic.html) — the gallery-vs-cockpit density argument
+
+Detection services (the residue layer):
+- [slopdar's field guide](https://slopdar.com/guide/how-to-tell-if-a-website-is-ai-generated) · [isitvibecoded.com](https://isitvibecoded.com/) · [Meridian Lab's hygiene scanner](https://hallmark.themeridianlab.com/) — builder fingerprints, default titles, placeholder debris, missing page furniture
 
 Practitioner reviews:
 - [YC Design Review: Common Mistakes With Vibe Coded Websites](https://www.ycombinator.com/library/NL-common-mistakes-with-vibe-coded-websites)
