@@ -1,109 +1,76 @@
 ---
 name: anti-slop-design
-description: Audit and fix the visual patterns that mark a web page, landing page, dashboard, or data-viz piece as AI-generated. Use BEFORE writing any UI code and again before shipping. Triggers on "make this look less AI", "this looks generic", "design review", "does this look templated", or any request to build a public-facing page.
+description: Remove the visual and structural patterns that mark editorial, data-viz, and content pages as AI-generated. Covers data stories, essays, scrollytelling, portfolios, newsletters, and longform pages, where the tells are structural (stat blocks, repeated card grids, curator naming, uniform scroll reveals) rather than the SaaS-landing-page tells other skills cover. Use BEFORE building any content-driven page and again as a pre-ship audit. Triggers on "this looks AI", "make it look less generated", "design review", "audit this page", "is this ready to ship", or any request to build an editorial or data-driven page.
 ---
 
-# Anti-slop design
+# anti-slop-design
 
-LLMs output the statistical median of the design they trained on. The result is a recognizable house style, and readers have learned to spot it. On social platforms the aesthetic now triggers hostility before anyone reads the content: real pages have been brigaded as "AI slop" over their look alone, while the underlying work was sound.
+An anti-AI-slop skill for pages where the content is the product: data stories, visual essays, scrollytelling, portfolios, newsletters, longform.
 
-The fix is never "add more polish." Slop is average taste. The antidote, everywhere, is to replace the median choice with a specific, committed, slightly uncomfortable one.
+**Why this lane needs its own skill.** The existing anti-slop skills (Hallmark, kill-ai-slop, Anthropic's frontend-design) target SaaS landing pages and app UI. Editorial pages fail differently. In 2026 a real, factually-researched data piece was posted to a large subreddit and brigaded as "AI slop" before anyone engaged with the data; the top comments named the *aesthetic*, not the content. The postmortem found the page had already avoided every surface tell (no Inter, no purple gradient, no stock photos). What got it identified was **structure**: four uniform card grids in eight sections, three-stat blocks, "The X Museum" curator naming, and a fade-in on every section. Trained-eye critics flag structure even when the surface is clean. This skill exists to catch that layer.
 
-This skill is two lists: the tells to remove, and the craft signals to add. Run both.
+The root cause, on every layer: language models emit the statistical median of their training data, so a generated page is a stack of most-probable choices. The antidote is never "more polish." It is replacing median choices with specific, committed ones. Slop is average taste; the fix is visible decisions.
 
-## Part 1: The tells
+## Modes
 
-### Typography
+**Build mode** (you are about to write a page): read `references/tells.md` and `references/craft.md` first, then design. Apply the legibility floors below as hard constraints. Before emitting, run the pre-ship audit.
 
-**No eyebrows, no kickers.** The small label above a headline ("BEFORE WE START", "01 · PARAMETERS", "STEP BACK") is the single most reliable AI tell. Every generated page reaches for the eyebrow → headline → subhead stack. Lowercase eyebrows count too. A section headline stands alone.
+**Audit mode** (a page exists): follow the workflow below. Never mass-edit before the user has seen the findings.
 
-If the eyebrow carried a real concept label ("Methodology", "Parameters"), promote it to be the headline itself, as the primary display element. Do not dissolve it into a sentence.
+### Audit workflow
 
-**No mono caps.** Never combine `text-transform: uppercase` with wide `letter-spacing` on a monospace font. This is the #1 "looks generated" signal in labels, kickers, and section markers. Monospace is allowed only as a quiet lowercase voice for pure data: coordinates, timestamps, axis labels, HUD numbers. The moment words form a sentence, they get the body face.
+1. **Scan.** Run the bundled scanner for the grep-detectable tells:
+   ```
+   node scripts/scan.mjs <path>
+   ```
+   It is dependency-free, read-only, and prints grouped `file:line` hits. Treat output as a map, not a verdict.
+2. **Look at the rendered page.** Half the tells (uniform rhythm, stat blocks, card-grid repetition, motion) are only visible in a browser. Screenshot or open it; judge structure against `references/tells.md` sections C and D.
+3. **Triage.** For every hit decide slop vs. intentional. A serif italic, a gradient, or a mono label can be a defended choice; flag only defaults. Respect authorship: when unsure, ask, don't strip.
+4. **Report.** Grouped summary: tell, confirmed `file:line` hits, one line on why it reads generated, proposed fix. Then ask which groups to apply.
+5. **Fix.** Minimal change that removes the tell and preserves intent. Prefer editing shared tokens over every call site. Re-run the scanner; look at the page again. A passing scan is not the same as a better page.
 
-Sweep before shipping: `grep -n "uppercase\|letter-spacing" file.html` should return nothing meaningful.
+## Legibility floors (hard constraints, both modes)
 
-**No all-caps display type.** Uppercase kills word shapes; readers recognize words by their outline, and caps flatten every outline into a rectangle. Sentence-case the big type. If you must use caps, reserve them for short labels of one or two words.
+These are not style opinions. A page that fails them is broken regardless of aesthetics.
 
-**No default-font-used-the-default-way.** Inter, Geist, Space Grotesk, or an italic-serif hero (Fraunces, Instrument Serif) deployed exactly as every template deploys them. The problem is not the font; it is the font doing the obvious job. Pick a display face with actual personality and pair it with a neutral text face. Two fonts, used with tension. Not four fonts mixed evenly (font soup is its own tell).
+- **Measure:** 45–75 characters per line for body text; ~66 is the classical ideal (Bringhurst, *The Elements of Typographic Style*). 40–50 for multi-column.
+- **No all-caps running text or display headlines.** Continuous all-caps is read about 12% slower than mixed case over sustained reading (Tinker, *Legibility of Print*, 1963). Sentence-case the big type; caps only for labels of a word or two.
+- **Contrast:** WCAG 2.2 AA minimum, 4.5:1 for body text, 3:1 for large text, including text over images and gradients. Gray-on-colored-background is the most common generated failure.
+- **Size:** functional text (links, labels, table cells, captions) never below 12px; body never below 16px.
+- **Body text is left-aligned** with line-height around 1.5. Centered paragraphs are for invitations.
+- Tight negative tracking scales *down* as type gets huge, not up. Over-tight display type is unreadable and reads generated.
 
-**Hierarchy by weight and color, not size inflation.** Generated pages either keep every size within a timid 1.25 ratio (no hierarchy) or crank tracking negative on huge type until it's unreadable. Big size jumps between levels, modest tracking, and weight/color doing the secondary work.
+## The tell catalog (summary)
 
-### Legibility floors (non-negotiable)
+Full catalog with why, fix, and detection pattern per tell: `references/tells.md`. The layers:
 
-- 45–75 characters per line for body text.
-- Body text never below ~16px; secondary text never below ~13px, and never in low-contrast gray.
-- Meet WCAG AA contrast on every text element, including text over images and gradients.
-- Line-height ~1.5 for body, tighter for display.
-- Left-align body text. Centered paragraphs are for wedding invitations.
+- **A. Typography:** eyebrows/kickers above headlines (any case, any font); letterspaced-uppercase mono labels; all-caps display; italic-serif hero; Inter-everywhere or font soup; flat size hierarchy (steps under 1.25×); gradient text.
+- **B. Color and surface:** purple/indigo-to-violet gradients; the cream + grain + italic-serif "AI editorial" stack; neon-glow-on-dark; six meaningless category colors; decorative glassmorphism; hairline border plus wide diffuse shadow; colored left-border callouts; over-rounding and uniform radius.
+- **C. Structure (the editorial layer, weight these highest):** three-stat blocks; more than one card grid per page; icon-tile-above-heading feature cards; centered-everything with the hero → cards → CTA rhythm; cards nested in cards; uniform spacing with no visible decision; "01 / 02 / 03" section markers; invented metrics.
+- **D. Motion:** uniform fade-in-up on every section; scroll hijacking; hover scale/glow on everything; stock easing everywhere; decorative motion that communicates no state.
+- **E. Imagery and naming:** emoji as icons; plastic AI illustration; amateur hand-drawn SVG scenes; "The X Museum / Atlas / Vault" curator naming; vague headlines; em dashes and "not just X, it's Y" voice tics in page copy.
 
-A page that fails these is broken regardless of how it scores on everything else.
+## Craft signals (what to add)
 
-### Color
+Full detail and the case study: `references/craft.md`. The floor is **three visible deliberate choices** per page; below that, pages read generated even with zero tells present.
 
-**The banned combos.** Purple-to-blue or indigo-to-violet gradients. Gradient text on headlines or big numbers. Cyan-on-dark neon glow cards. And the "premium editorial" version: cream/warm-paper background + italic serif + grain overlay, which became the AI data-viz default and now reads as generated on sight.
+1. A byline and a date. Anonymous pages read generated; owned pages read authored.
+2. A visible changelog or errata line crediting whoever flagged each fix.
+3. A raw-data link when the page shows data.
+4. **The reskin test:** if the page could serve any other client by swapping the headline and accent, it has no concept. Build from a primitive native to the subject (a running app's polyline, a street dataset's panoramas), not a premium shell around it.
+5. One committed accent, one real asymmetry, a two-font pairing with tension, an authored ease.
 
-**One committed accent.** One electric accent color used bravely against a restrained base beats six tasteful category chips. Flat fills, not gradients. If a color appears in a chart, it must mean something.
+## Pre-ship audit
 
-### Layout and structure
+Run against the rendered page:
 
-These are the hard ones. Pages that dodge every visual tell still get identified by structure.
-
-**No three-stat blocks.** Three big rounded numbers in three equal cards ("242 catalogued / 170+ pieces / 2035 deadline") is the universal AI feature-card template. Replace with one inline sentence holding one number: "242 stations catalogued, half with audio, most going quiet by 2035."
-
-**At most one card grid per page.** Repeated uniform card grids are a template fingerprint. Vary the section formats: timeline, full-bleed image, pull quote, plain table, single column with wide margins.
-
-**No uniform everything.** Uniform border-radius on every element, identical padding rhythm on every section, everything centered, cards nested inside cards. Even spacing everywhere is itself a tell; it reads as generated because no human decision is visible. Vary intentionally: outdent a pull quote, let one section bleed off the edge, use a 60/40 split, alternate light and dark full-bleed sections as structure.
-
-**More whitespace than feels natural.** Then a little more. Cramped uniform padding is the template default; generous asymmetric space is a decision.
-
-### Motion
-
-**Kill the decorative scroll-reveal.** A uniform fade-in-up on every section from one IntersectionObserver is a tell, not a delight. Reserve motion for state changes: loading, playing, selected, error. If an element animates in and the animation communicates nothing, delete it.
-
-**Never hijack scroll.** Native scroll only. Scroll-driven animation is fine (scrub a timeline from scroll position); replacing the scroll mechanic is not.
-
-**No stock easing everywhere.** Default ease-in-out on everything is the motion equivalent of Inter. If you animate, author the ease and stagger deliberately, and keep hover effects off elements that don't need them (scale(1.05) on every card is a tell).
-
-### Imagery and naming
-
-- No emoji as icons. No stock "diverse team at laptops." No plastic AI illustration. Use real assets: archival images, Wikimedia Commons, your own photos, or nothing.
-- No curator branding. "The X Museum", "The X Atlas", "The X Vault" is stock AI naming. Name the thing what it is: "Tokyo train melodies, 2026" beats "The Bells of Tokyo: A Listening Museum."
-- No vague headlines ("Build the future"). Specificity with a real date and a real name is one of the strongest human signals available.
-- No em dashes in interface copy or headlines. They read as a generated-text tic. Use a period, colon, or comma.
-
-## Part 2: Craft signals to add
-
-Each costs minutes and reads as a human decision:
-
-1. **A byline and a date.** "By [name] · [site] · [date]". Anonymous pages read generated; owned pages read authored.
-2. **A visible changelog or errata line.** Small note listing recent fixes, crediting whoever flagged them. Reframes the page from "AI exhibit" to "working document."
-3. **A raw data link.** If the page shows data, link the CSV. Real practitioners show their work.
-4. **One native visual concept.** Ask: what is this subject's own primitive? (For a running app it's the activity polyline; for street data it's the panorama.) Build the page from a primitive native to the subject, not a premium shell wrapped around it. The test: if the page could be reskinned for any client by swapping the headline and accent color, it has no concept.
-5. **At least three deliberate non-default choices.** A committed accent, a real asymmetry, a two-font tension, an authored ease. Three visible decisions is roughly the floor at which a page stops reading as generated.
-
-## Part 3: Pre-ship audit
-
-Run this against the actual rendered page, not the code:
-
-1. Grep for `uppercase` and `letter-spacing`. Anything on a label or heading fails.
-2. Count eyebrows/kickers above headlines. Must be zero, any case.
-3. Count card grids. More than one fails.
-4. Count stat-blocks (2–4 equal cards with big numbers). Must be zero.
-5. Squint test: is spacing/radius uniform everywhere? If no asymmetric decision is visible, add one.
-6. Check the palette against the banned combos (purple gradient, gradient text, neon-on-dark, cream + italic serif + grain).
-7. Disable JavaScript. Does anything animate that communicated nothing? Delete it.
-8. Read every line of copy for em dashes, vague headlines, and curator naming.
-9. Verify legibility floors: measure, contrast, minimum sizes, line-height.
-10. The final gut check: **"Would a language model asked to 'make a premium site for X' have produced this layout by default?"** If yes, you are not done. Find the three deliberate choices.
-
-## Sources
-
-The tell lists here are corroborated by independent catalogs of AI-generated design patterns:
-
-- [Slop — impeccable.style](https://impeccable.style/slop/) (the canonical catalog, 37 patterns)
-- [AI Slop Web Design: Complete Guide — 925studios](https://www.925studios.co/blog/ai-slop-web-design-guide)
-- [Why Do Most AI-Generated Websites Look the Same? — Shuffle](https://shuffle.dev/blog/2026/01/why-do-most-ai-generated-websites-look-the-same/)
-- [I Analyzed 100 Vibe-Coded Websites — DEV Community](https://dev.to/kaplich/i-analyzed-100-vibe-coded-websites-and-found-these-common-mistakes-5275)
-
-Plus field experience: a real data-viz page brigaded on Reddit as "AI slop" was audited pattern by pattern; the structural tells (stat blocks, repeated card grids, curator naming) turned out to matter more than the visual ones, because trained-eye critics flag structure even when the surface looks clean.
+1. `node scripts/scan.mjs <path>` returns nothing you can't defend.
+2. Zero eyebrows/kickers above headlines, any case.
+3. At most one card grid; zero stat-blocks; zero icon-tile feature cards.
+4. Squint test: at least one asymmetric, non-uniform decision is visible.
+5. Palette clear of the banned combos; every color on a chart encodes something.
+6. Nothing animates that communicates nothing.
+7. Copy clear of em dashes, vague headlines, curator naming, invented numbers.
+8. Legibility floors all pass, measured, not eyeballed.
+9. The reskin test passes and three deliberate choices are nameable.
+10. Final gut check: *"Would a model asked for 'a premium page about X' have produced this layout by default?"* If yes, not done.
