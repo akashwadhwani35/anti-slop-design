@@ -40,6 +40,10 @@ The tells are organized in seven layers, weighted by how often each layer surviv
 
 Plus the part removal can't give you: the **reskin test** (if the page could serve any other client by swapping headline and accent, it has no concept; build from a primitive native to the subject) and the **three-deliberate-choices floor**.
 
+## Worked example
+
+[`examples/accor/`](examples/accor/AUDIT.md) is the full workflow run against a real shipped data page: the before/after screenshots, the scan going 10 tell groups → 0, what was fixed versus what was defended and pinned, and the data bug the caps had been hiding.
+
 ## Install
 
 Claude Code, per-project:
