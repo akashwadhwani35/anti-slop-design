@@ -2,7 +2,7 @@
 
 Every tell lists: what it is, why it reads generated, the fix, and how to detect it. Detection marked `scan` is covered by `scripts/scan.mjs`; `eye` means it needs the rendered page.
 
-Sources are cited inline. The recurring ones: [impeccable.style/slop](https://impeccable.style/slop/) (the canonical detector catalog), [925studios' AI slop guide](https://www.925studios.co/blog/ai-slop-web-design-guide), [kill-ai-slop's 35-tell taxonomy](https://github.com/yetone/kill-ai-slop), the [YC Design Review episode on vibe-coded sites](https://www.ycombinator.com/library/NL-common-mistakes-with-vibe-coded-websites) (Aaron Epstein and Raphael Schaad), and [Sascha Becker's anatomy of AI design sameness](https://saschb2b.com/blog/same-same-but-different).
+Sources are cited inline. The recurring ones: [impeccable.style/slop](https://impeccable.style/slop/) (the canonical detector catalog), [925studios' AI slop guide](https://www.925studios.co/blog/ai-slop-web-design-guide), [kill-ai-slop's 35-tell taxonomy](https://github.com/yetone/kill-ai-slop), [unslop-ui-skill's master catalog](https://github.com/claudiusararu/unslop-ui-skill) (~100 tells; several typography tells here were mined from it), [Hallmark's slop-test gates](https://github.com/nutlope/hallmark), the [YC Design Review episode on vibe-coded sites](https://www.ycombinator.com/library/NL-common-mistakes-with-vibe-coded-websites) (Aaron Epstein and Raphael Schaad), and [Sascha Becker's anatomy of AI design sameness](https://saschb2b.com/blog/same-same-but-different).
 
 ---
 
@@ -42,6 +42,26 @@ Every size within a timid ratio. impeccable.style flags steps under 1.25×.
 `background-clip: text` on headlines or big numbers. Pure generated decoration.
 **Fix:** solid ink, scale up if it needs more presence.
 **Detect:** `scan`.
+
+### A8. The lone italic accent word
+One serif-italic word dropped into a sans hero ("build *beautiful* products"), often as part of the trending Space Grotesk + Instrument Serif italic + Inter trio. The unslop-ui-skill catalog nails it: *"canned add-personality move; reads as a unit, not a choice."*
+**Fix:** commit serif/sans as a system or drop it. Emphasize by weight and position, one voice.
+**Detect:** `scan`.
+
+### A9. Heading-wrap gimmicks
+`text-wrap: balance` painted on everything (pyramid headlines, stranded last lines), forced `<br>` in headings that break wrong at other widths, four-line headlines with one-word orphans.
+**Fix:** balance only on genuine 2-3 line headings, `text-pretty` for body, control wrap with a `max-width` in `ch`.
+**Detect:** `scan` (balance) + `eye`.
+
+### A10. Non-tabular numerals in data
+Proportional figures in stats, tables, prices, and tick labels wobble and misalign. On a data page this is the difference between typeset and generated.
+**Fix:** `font-variant-numeric: tabular-nums` on anything columnar or counting.
+**Detect:** manual (scanner reminds).
+
+### A11. Blanket tracking and justification
+Negative tracking copied from display sizes down to body and labels; `text-align: justify` on web columns (rivers, no hyphenation control).
+**Fix:** body tracking 0, ragged-right. Negative tracking scales with size and stops at display.
+**Detect:** `scan` (justify) + `eye`.
 
 ## B. Color and surface
 
@@ -89,6 +109,16 @@ The thick side-tab accent on a rounded card. impeccable.style calls the side-tab
 A faint grid covering a surface that supports no canvas, map, or measurement task (impeccable.style).
 **Fix:** product structure or a plain field.
 **Detect:** `eye`.
+
+### B10. Gray body text
+`text-gray-400/500` (#9ca3af / #6b7280) on white, `slate-400` on dark, as *body* text. An AI tell and a WCAG failure at once; generators reach for gray to look refined and lose the reader instead.
+**Fix:** near-black body ink; grays reserved for genuinely secondary metadata, still at 4.5:1.
+**Detect:** `scan`.
+
+### B11. Dark-only mode and pure black
+Defaulting the whole page to dark because "dark = premium" (it also hides layout sins), and `#000` as the page ground, which vibrates against white text and kills any elevation ramp.
+**Fix:** light default unless the subject genuinely lives at night; off-black with a temperature (#0e0e10, warm #14110f) when dark is the right call.
+**Detect:** `scan` (pure black) + `eye`.
 
 ## C. Structure (the editorial layer)
 
@@ -155,6 +185,16 @@ scale(1.05) and glow on every card and button (YC episode: "annoying hover effec
 Default ease-in-out on every transition is the motion equivalent of Inter.
 **Fix:** author the ease and the stagger, or don't animate.
 **Detect:** `eye`.
+
+### D5. `transition: all`
+The blanket transition, usually paired with the blanket hover. Also a performance smell.
+**Fix:** name the properties that change.
+**Detect:** `scan`.
+
+### D6. Motion without a reduced-motion fallback
+Keyframes and animations with no `@media (prefers-reduced-motion: reduce)` alternative. Hallmark treats this as a hard gate and it's right to: it's the accessibility tell.
+**Fix:** every motion gets a reduced or disabled variant.
+**Detect:** `scan` (file-level check).
 
 ## E. Imagery, naming, copy
 

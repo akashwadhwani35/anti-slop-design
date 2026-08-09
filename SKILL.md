@@ -13,7 +13,22 @@ The root cause, on every layer: language models emit the statistical median of t
 
 ## Modes
 
-**Build mode** (you are about to write a page): read `references/tells.md` and `references/craft.md` first, then design. Apply the legibility floors below as hard constraints. Before emitting, run the pre-ship audit.
+**Build mode** (you are about to write a page): read `references/tells.md`, `references/structures.md`, and `references/craft.md` first, then design. Choose each section's form from the content using the section-form palette; the page must not share its structural fingerprint with the previous page (structures.md). Apply the legibility floors below as hard constraints. Before emitting, run the pre-emit self-critique, then the pre-ship audit.
+
+### Pre-emit self-critique (build mode)
+
+Adapted from Hallmark's discipline. Before handing back any page, score the planned output 1–5 on five axes. **Any axis below 3 forces a revision pass before the audit.** Two passes is normal; needing a third means the concept is wrong, not the styling, so go back to the reskin test rather than iterating the surface.
+
+| Axis | What you're scoring |
+| --- | --- |
+| **Concept** | Is the page built from a primitive native to the subject, or is it chrome? (The reskin test, craft.md) |
+| **Structure** | Do section forms vary with their content? Would the fingerprint survive the "same as my last page?" check? |
+| **Honesty** | Every number real and sourced, axes honest, nothing invented, nothing over-claimed? |
+| **Specificity** | Does copy carry dates, names, and checkable numbers, or vibes? |
+| **Legibility** | Do the floors below all pass, measured? |
+
+Stamp the scores and the structural fingerprint in a comment at the top of the file so the next build can diff against it:
+`/* anti-slop-design · C4 S5 H5 Sp4 L5 · forms: column+scrolly+table · headings: hanging */`
 
 **Audit mode** (a page exists): follow the workflow below. Never mass-edit before the user has seen the findings.
 
@@ -21,13 +36,15 @@ The root cause, on every layer: language models emit the statistical median of t
 
 1. **Scan.** Run the bundled scanner for the grep-detectable tells:
    ```
-   node scripts/scan.mjs <path>
+   node scripts/scan.mjs <path>              # human-readable
+   node scripts/scan.mjs <path> --json       # machine-readable
+   node scripts/scan.mjs <path> --only=A1,C2 --skip=E5 --exclude=legacy
    ```
-   It is dependency-free, read-only, and prints grouped `file:line` hits. Treat output as a map, not a verdict.
+   It is dependency-free, read-only, and prints grouped `file:line` hits with per-rule false-positive notes. Treat output as a map, not a verdict. Hits the user confirms as intentional get pinned in source with `antislop-ignore`, `antislop-ignore-next-line A2`, or `antislop-ignore-file` comments; prefer the id-scoped form so new tells still surface.
 2. **Look at the rendered page.** Half the tells (uniform rhythm, stat blocks, card-grid repetition, motion) are only visible in a browser. Screenshot or open it; judge structure against `references/tells.md` sections C and D.
 3. **Triage.** For every hit decide slop vs. intentional. A serif italic, a gradient, or a mono label can be a defended choice; flag only defaults. Respect authorship: when unsure, ask, don't strip.
 4. **Report.** Grouped summary: tell, confirmed `file:line` hits, one line on why it reads generated, proposed fix. Then ask which groups to apply.
-5. **Fix.** Minimal change that removes the tell and preserves intent. Prefer editing shared tokens over every call site. Re-run the scanner; look at the page again. A passing scan is not the same as a better page.
+5. **Fix.** Minimal change that removes the tell and preserves intent. Use the before→after patterns in `references/fixes.md`. Tokens first (fonts, colors, radius; many hits vanish at once), then components, then call sites, then copy. When a repeated card grid falls, replace it with a form matched to its content from `references/structures.md`, don't restyle the grid. Re-run the scanner; look at the page again. A passing scan is not the same as a better page.
 
 ## Legibility floors (hard constraints, both modes)
 
@@ -44,10 +61,10 @@ These are not style opinions. A page that fails them is broken regardless of aes
 
 Full catalog with why, fix, and detection pattern per tell: `references/tells.md`. The layers:
 
-- **A. Typography:** eyebrows/kickers above headlines (any case, any font); letterspaced-uppercase mono labels; all-caps display; italic-serif hero; Inter-everywhere or font soup; flat size hierarchy (steps under 1.25×); gradient text.
-- **B. Color and surface:** purple/indigo-to-violet gradients; the cream + grain + italic-serif "AI editorial" stack; neon-glow-on-dark; six meaningless category colors; decorative glassmorphism; hairline border plus wide diffuse shadow; colored left-border callouts; over-rounding and uniform radius.
+- **A. Typography:** eyebrows/kickers above headlines (any case, any font); letterspaced-uppercase mono labels; all-caps display; italic-serif hero; the lone italic accent word; Inter-everywhere or font soup; flat size hierarchy (steps under 1.25×); gradient text; heading-wrap gimmicks; non-tabular numerals in data; blanket tracking and justification.
+- **B. Color and surface:** purple/indigo-to-violet gradients; the cream + grain + italic-serif "AI editorial" stack; neon-glow-on-dark; six meaningless category colors; decorative glassmorphism; hairline border plus wide diffuse shadow; colored left-border callouts; over-rounding and uniform radius; gray body text; dark-only mode and pure-black grounds.
 - **C. Structure (the editorial layer, weight these highest):** three-stat blocks; more than one card grid per page; icon-tile-above-heading feature cards; centered-everything with the hero → cards → CTA rhythm; cards nested in cards; uniform spacing with no visible decision; "01 / 02 / 03" section markers; invented metrics.
-- **D. Motion:** uniform fade-in-up on every section; scroll hijacking; hover scale/glow on everything; stock easing everywhere; decorative motion that communicates no state.
+- **D. Motion:** uniform fade-in-up on every section; scroll hijacking; hover scale/glow on everything; stock easing everywhere; `transition: all`; motion without a reduced-motion fallback; decorative motion that communicates no state.
 - **E. Imagery and naming:** emoji as icons; plastic AI illustration; amateur hand-drawn SVG scenes; "The X Museum / Atlas / Vault" curator naming; vague headlines; em dashes and "not just X, it's Y" voice tics in page copy.
 
 ## Craft signals (what to add)

@@ -15,15 +15,17 @@ It also enforces the legibility floors AI layouts routinely break, with the actu
 | [Anthropic frontend-design](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design) | Design-quality guidance plugin | Greenfield app UI |
 | **anti-slop-design** | Structural tell catalog + scanner + craft signals, built from a real hostile-audience postmortem | **Editorial, data-viz, and content pages** |
 
-They compose: use Hallmark to generate an app page, use this to audit the data story you wrote yourself.
+They compose: use Hallmark to generate an app page, use this to audit the data story you wrote yourself. This skill also borrows, with credit, the best mechanics of its neighbors: Hallmark's pre-emit self-critique and structural-fingerprint discipline (adapted to editorial section forms), kill-ai-slop's before→after fix patterns and ignore-pin workflow, and several typography tells mined from unslop-ui-skill's catalog.
 
 ## What's inside
 
 ```
-SKILL.md              the skill: modes, workflow, legibility floors, pre-ship audit
-references/tells.md   ~30 tells in 5 layers, each with why / fix / detection, all cited
-references/craft.md   the additive signals, the reskin test, the Reddit-brigade case study, sources
-scripts/scan.mjs      dependency-free scanner: grouped file:line hits for the grep-detectable tells
+SKILL.md                  the skill: modes, pre-emit self-critique, audit workflow, legibility floors, pre-ship audit
+references/tells.md       ~40 tells in 5 layers, each with why / fix / detection, all cited
+references/structures.md  the section-form palette + the structural-fingerprint rule
+references/fixes.md       before→after diff patterns for the highest-frequency tells
+references/craft.md       the additive signals, the reskin test, the Reddit-brigade case study, sources
+scripts/scan.mjs          dependency-free scanner: grouped file:line hits, --only/--skip/--exclude, antislop-ignore pins
 ```
 
 The tells are organized in five layers, weighted by how often each layer survives a surface cleanup:
