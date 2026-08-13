@@ -1,0 +1,23 @@
+{
+  "name": "anti-slop-design",
+  "displayName": "anti-slop-design",
+  "version": "1.0.0",
+  "description": "Removes the structural patterns that mark editorial and data-viz pages as AI-generated: stat blocks, repeated card grids, curator naming, uniform scroll reveals. ~55 cited tells, a dependency-free scanner, and a worked audit of a live page.",
+  "author": {
+    "name": "Akash Wadhwani",
+    "url": "https://github.com/akashwadhwani35"
+  },
+  "homepage": "https://github.com/akashwadhwani35/anti-slop-design",
+  "repository": "https://github.com/akashwadhwani35/anti-slop-design",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "anti-slop",
+    "ai-slop",
+    "editorial",
+    "data-visualization",
+    "typography",
+    "code-review",
+    "accessibility"
+  ]
+}

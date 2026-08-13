@@ -46,13 +46,22 @@ Plus the part removal can't give you: the **reskin test** (if the page could ser
 
 ## Install
 
-Claude Code, per-project:
+Claude Code, as a plugin (recommended, and it updates in place):
+
+```sh
+/plugin marketplace add akashwadhwani35/anti-slop-design
+/plugin install anti-slop-design@akash-skills
+```
+
+Run `/plugin marketplace update akash-skills` to pull later versions.
+
+Or drop it in as a plain skill, per-project:
 
 ```sh
 git clone https://github.com/akashwadhwani35/anti-slop-design .claude/skills/anti-slop-design
 ```
 
-or globally in `~/.claude/skills/anti-slop-design`. Claude Code picks it up automatically; invoke explicitly with `/anti-slop-design`, or just build or review a page and let the description trigger it.
+or globally in `~/.claude/skills/anti-slop-design`. Either way Claude Code picks it up automatically; invoke explicitly with `/anti-slop-design`, or just build or review a page and let the description trigger it.
 
 Cursor / Windsurf / other tools: paste `SKILL.md` + `references/tells.md` into your rules file. The scanner runs anywhere Node 18+ runs:
 

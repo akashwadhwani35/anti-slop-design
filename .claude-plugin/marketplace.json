@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "akash-skills",
+  "description": "Design and editorial skills for Claude Code, by Akash Wadhwani.",
+  "owner": {
+    "name": "Akash Wadhwani",
+    "url": "https://github.com/akashwadhwani35"
+  },
+  "plugins": [
+    {
+      "name": "anti-slop-design",
+      "source": ".",
+      "description": "Removes the structural patterns that mark editorial and data-viz pages as AI-generated: stat blocks, repeated card grids, curator naming, uniform scroll reveals. ~55 cited tells, a dependency-free scanner, and a worked audit of a live page.",
+      "version": "1.0.0",
+      "category": "design",
+      "tags": [
+        "design",
+        "anti-slop",
+        "editorial",
+        "data-visualization",
+        "typography",
+        "accessibility"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/akashwadhwani35/anti-slop-design",
+      "repository": "https://github.com/akashwadhwani35/anti-slop-design",
+      "author": {
+        "name": "Akash Wadhwani",
+        "url": "https://github.com/akashwadhwani35"
+      }
+    }
+  ]
+}
